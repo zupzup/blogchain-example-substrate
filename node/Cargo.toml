@@ -61,12 +61,6 @@ pallet-transaction-payment-rpc = { version = "4.0.0-dev", git = "https://github.
 frame-benchmarking = { version = "4.0.0-dev", git = "https://github.com/paritytech/substrate.git", tag = "devhub/latest" }
 frame-benchmarking-cli = { version = "4.0.0-dev", git = "https://github.com/paritytech/substrate.git", tag = "devhub/latest" }
 
-# Local Dependencies
-node-template-runtime = { version = "4.0.0-dev", path = "../runtime" }
-
-[build-dependencies]
-substrate-build-script-utils = { version = "3.0.0", git = "https://github.com/paritytech/substrate.git", tag = "devhub/latest" }
-
 [features]
 default = []
 runtime-benchmarks = ['node-blogchain-runtime/runtime-benchmarks']
