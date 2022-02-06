@@ -100,12 +100,6 @@ pub mod pallet {
 		pub fn create_blog_post(origin: OriginFor<T>, content: Vec<u8>) -> DispatchResult {
 			let author = ensure_signed(origin)?;
 
-			log::info!(
-				"content length: {}, min {}, max {}",
-				content.len(),
-				T::BlogPostMinBytes::get(),
-				T::BlogPostMaxBytes::get()
-			);
 			ensure!(
 				(content.len() as u32) > T::BlogPostMinBytes::get(),
 				<Error<T>>::BlogPostNotEnoughBytes
