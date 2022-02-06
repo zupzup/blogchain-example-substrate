@@ -73,6 +73,8 @@ pub mod pallet {
 	#[pallet::generate_deposit(pub(super) fn deposit_event)]
 	pub enum Event<T: Config> {
 		BlogPostCreated(Vec<u8>, T::AccountId, T::Hash),
+		BlogPostCommentCreated(Vec<u8>, T::AccountId, T::Hash),
+		Tipped(T::AccountId, T::Hash),
 	}
 
 	// Errors inform users that something went wrong.
@@ -157,6 +159,12 @@ pub mod pallet {
 			})
 			.map_err(|_| <Error<T>>::BlogPostNotFound)?;
 
+			Self::deposit_event(Event::BlogPostCommentCreated(
+				content,
+				comment_author,
+				blog_post_id,
+			));
+
 			Ok(())
 		}
 
@@ -179,6 +187,9 @@ pub mod pallet {
 				amount,
 				ExistenceRequirement::KeepAlive,
 			)?;
+
+			Self::deposit_event(Event::Tipped(tipper, blog_post_id));
+
 			Ok(())
 		}
 	}
