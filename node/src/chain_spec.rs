@@ -1,4 +1,4 @@
-use node_blogchain_runtime::{
+use node_template_runtime::{
 	AccountId, AuraConfig, BalancesConfig, GenesisConfig, GrandpaConfig, Signature, SudoConfig,
 	SystemConfig, WASM_BINARY,
 };
@@ -68,6 +68,7 @@ pub fn development_config() -> Result<ChainSpec, String> {
 		None,
 		// Protocol ID
 		None,
+		None,
 		// Properties
 		None,
 		// Extensions
@@ -117,6 +118,7 @@ pub fn local_testnet_config() -> Result<ChainSpec, String> {
 		None,
 		// Properties
 		None,
+		None,
 		// Extensions
 		None,
 	))
@@ -147,7 +149,7 @@ fn testnet_genesis(
 		},
 		sudo: SudoConfig {
 			// Assign network admin rights.
-			key: root_key,
+			key: Some(root_key),
 		},
 		transaction_payment: Default::default(),
 	}

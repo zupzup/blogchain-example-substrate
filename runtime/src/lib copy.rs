@@ -26,8 +26,7 @@ use sp_version::RuntimeVersion;
 // A few exports that help ease life for downstream crates.
 pub use frame_support::{
 	construct_runtime, parameter_types,
-	traits::{Currency, KeyOwnerProofSystem, Randomness, StorageInfo},
-	traits::{ConstU128, ConstU32, ConstU8,},
+	traits::{ConstU128, ConstU32, ConstU8, KeyOwnerProofSystem, Randomness, StorageInfo},
 	weights::{
 		constants::{BlockExecutionWeight, ExtrinsicBaseWeight, RocksDbWeight, WEIGHT_PER_SECOND},
 		IdentityFee, Weight,
@@ -91,8 +90,8 @@ pub mod opaque {
 //   https://docs.substrate.io/v3/runtime/upgrades#runtime-versioning
 #[sp_version::runtime_version]
 pub const VERSION: RuntimeVersion = RuntimeVersion {
-	spec_name: create_runtime_str!("node-blogchain"),
-	impl_name: create_runtime_str!("node-blogchain"),
+	spec_name: create_runtime_str!("node-template"),
+	impl_name: create_runtime_str!("node-template"),
 	authoring_version: 1,
 	// The version of the runtime specification. A full node will not attempt to use its native
 	//   runtime in substitute for the on-chain Wasm runtime unless all of `spec_name`,
@@ -140,11 +139,6 @@ parameter_types! {
 	pub BlockLength: frame_system::limits::BlockLength = frame_system::limits::BlockLength
 		::max_with_normal_ratio(5 * 1024 * 1024, NORMAL_DISPATCH_RATIO);
 	pub const SS58Prefix: u8 = 42;
-	pub const BlogPostMinBytes: u32 = 64; // <-- new
-	pub const BlogPostMaxBytes: u32 = 4096;// <-- new
-	pub const BlogPostCommentMinBytes: u32 = 64;// <-- new
-	pub const BlogPostCommentMaxBytes: u32 = 1024;// <-- new
-
 }
 
 // Configure FRAME pallets to include in runtime.
@@ -239,7 +233,6 @@ impl pallet_timestamp::Config for Runtime {
 	type OnTimestampSet = Aura;
 	type MinimumPeriod = MinimumPeriod;
 	type WeightInfo = ();
-	
 }
 
 impl pallet_balances::Config for Runtime {
@@ -276,11 +269,6 @@ impl pallet_sudo::Config for Runtime {
 /// Configure the pallet-template in pallets/template.
 impl pallet_template::Config for Runtime {
 	type Event = Event;
-	type Currency = Balances; // <-- new
-	type BlogPostMinBytes = BlogPostMinBytes;// <-- new
-	type BlogPostMaxBytes = BlogPostMaxBytes;// <-- new
-	type BlogPostCommentMinBytes = BlogPostCommentMinBytes;// <-- new
-	type BlogPostCommentMaxBytes = BlogPostCommentMaxBytes; // <-- new
 }
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
@@ -299,9 +287,9 @@ construct_runtime!(
 		TransactionPayment: pallet_transaction_payment,
 		Sudo: pallet_sudo,
 		// Include the custom logic from the pallet-template in the runtime.
-		Blogchain: pallet_template,
+		TemplateModule: pallet_template,
 	}
-	);
+);
 
 /// The address format for describing accounts.
 pub type Address = sp_runtime::MultiAddress<AccountId, ()>;
